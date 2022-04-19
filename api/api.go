@@ -52,7 +52,7 @@ func respondWithError(w http.ResponseWriter, code int, message string) {
 	respondWithJSON(w, code, map[string]string{"error": message})
 }
 
-func GetDailyQuestion(w http.ResponseWriter, r *http.Request) {
+func Handler(w http.ResponseWriter, r *http.Request) {
 	res, err := http.Get(createOpenTriviaDBURL(1))
 	if err != nil || res.StatusCode != http.StatusOK {
 		respondWithError(w, http.StatusInternalServerError, ":(")
