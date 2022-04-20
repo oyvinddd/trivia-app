@@ -42,6 +42,16 @@ func createOpenTriviaDBURL(noOfQuestions int) string {
 	return fmt.Sprintf("https://opentdb.com/api.php?amount=%d&type=multiple", noOfQuestions)
 }
 
+func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
+	w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(code)
+	json.NewEncoder(w).Encode(&payload)
+}
+
+func respondWithError(w http.ResponseWriter, code int, message string) {
+	respondWithJSON(w, code, map[string]string{"error": message})
+}
+
 func GetDailyQuestion(w http.ResponseWriter, r *http.Request) {
 	// TODO: use custom TriviaAPI module instead
 	//triviaAPI := tapi.New()
