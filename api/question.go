@@ -3,7 +3,6 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	tapi "github.com/oyvinddd/trivia-api"
 	"io"
 	"net/http"
 )
@@ -44,9 +43,9 @@ func createOpenTriviaDBURL(noOfQuestions int) string {
 }
 
 func GetDailyQuestion(w http.ResponseWriter, r *http.Request) {
-
-	triviaAPI := tapi.New()
-	triviaAPI.GetDailyQuestion(r.Context())
+	// TODO: use custom TriviaAPI module instead
+	//triviaAPI := tapi.New()
+	//triviaAPI.GetDailyQuestion(r.Context())
 
 	res, err := http.Get(createOpenTriviaDBURL(1))
 	if err != nil || res.StatusCode != http.StatusOK {
