@@ -1,3 +1,3 @@
 module github.com/oyvinddd/trivia-app/api
 
-go 1.18
+go 1.17

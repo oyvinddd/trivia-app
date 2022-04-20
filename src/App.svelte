@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from "svelte"
 
-	let questionText = ""
+	let questionText = "Question goes here"
 
 	// TODO: base url and API url here
 	onMount(async () => {
@@ -15,9 +15,10 @@
 </script>
 
 <main>
-	<h1>Daily Question</h1>
-	<h2 class="blue-200 shadow-lg">{ questionText }</h2>
-
+	<div class="bg-white">
+		<h1>Daily Trivia</h1>
+		<h2 class="blue-200 shadow-lg">{ questionText }</h2>
+	</div>
 </main>
 
 <style>
