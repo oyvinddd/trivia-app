@@ -1,8 +1,9 @@
-package handler
+package api
 
 import (
 	"encoding/json"
 	"fmt"
+	tapi "github.com/oyvinddd/trivia-api"
 	"io"
 	"net/http"
 )
@@ -42,17 +43,11 @@ func createOpenTriviaDBURL(noOfQuestions int) string {
 	return fmt.Sprintf("https://opentdb.com/api.php?amount=%d&type=multiple", noOfQuestions)
 }
 
-func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
-	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(code)
-	json.NewEncoder(w).Encode(&payload)
-}
-
-func respondWithError(w http.ResponseWriter, code int, message string) {
-	respondWithJSON(w, code, map[string]string{"error": message})
-}
-
 func GetDailyQuestion(w http.ResponseWriter, r *http.Request) {
+
+	triviaAPI := tapi.New()
+	triviaAPI.GetDailyQuestion(r.Context())
+
 	res, err := http.Get(createOpenTriviaDBURL(1))
 	if err != nil || res.StatusCode != http.StatusOK {
 		respondWithError(w, http.StatusInternalServerError, ":(")
