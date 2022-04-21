@@ -2,44 +2,20 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
-	"io"
+	tapi "github.com/oyvinddd/trivia-api"
+	cfg "github.com/oyvinddd/trivia-api/config"
 	"net/http"
 )
 
-type (
-	// OTDBResponse response body we get from Open Trivia DB
-	OTDBResponse struct {
-		Code    int `json:"response_code"`
-		Results []struct {
-			Category         string   `json:"category"`
-			QuestionType     string   `json:"type"`
-			Difficulty       string   `json:"difficulty"`
-			Question         string   `json:"question"`
-			CorrectAnswer    string   `json:"correct_answer"`
-			IncorrectAnswers []string `json:"incorrect_answers"`
-		} `json:"results"`
+// GetDailyQuestion fetches a daily question from the API
+func GetDailyQuestion(w http.ResponseWriter, r *http.Request) {
+	triviaAPI := tapi.New(r.Context(), cfg.New())
+	question, err := triviaAPI.GetDailyQuestion(r.Context())
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, err)
+		return
 	}
-	// Question is our domain specific object we serve our end-users
-	Question struct {
-		Text string `json:"text"`
-	}
-)
-
-func questionFromResponseBody(body io.ReadCloser) *Question {
-	var response OTDBResponse
-	if err := json.NewDecoder(body).Decode(&response); err != nil {
-		return nil
-	}
-	if len(response.Results) > 0 {
-		first := response.Results[0]
-		return &Question{Text: first.Question}
-	}
-	return nil
-}
-
-func createOpenTriviaDBURL(noOfQuestions int) string {
-	return fmt.Sprintf("https://opentdb.com/api.php?amount=%d&type=multiple", noOfQuestions)
+	respondWithJSON(w, http.StatusOK, question)
 }
 
 func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
@@ -48,20 +24,6 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	json.NewEncoder(w).Encode(&payload)
 }
 
-func respondWithError(w http.ResponseWriter, code int, message string) {
-	respondWithJSON(w, code, map[string]string{"error": message})
-}
-
-func GetDailyQuestion(w http.ResponseWriter, r *http.Request) {
-	// TODO: use custom TriviaAPI module instead
-	//triviaAPI := tapi.New()
-	//triviaAPI.GetDailyQuestion(r.Context())
-
-	res, err := http.Get(createOpenTriviaDBURL(1))
-	if err != nil || res.StatusCode != http.StatusOK {
-		respondWithError(w, http.StatusInternalServerError, ":(")
-		return
-	}
-	question := questionFromResponseBody(res.Body)
-	respondWithJSON(w, http.StatusOK, question)
+func respondWithError(w http.ResponseWriter, code int, err error) {
+	respondWithJSON(w, code, map[string]string{"error": err.Error()})
 }

@@ -3,7 +3,6 @@
 
 	let questionText = "Question goes here"
 
-	// TODO: base url and API url here
 	onMount(async () => {
 		fetch("/api/question").then(res => res.json()).then(data => {
 			questionText = data["text"]
