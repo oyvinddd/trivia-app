@@ -5,11 +5,18 @@ import (
 	tapi "github.com/oyvinddd/trivia-api"
 	"github.com/oyvinddd/trivia-api/config"
 	"net/http"
+	"os"
 )
 
 // GetDailyQuestion fetches a daily question from the API
 func GetDailyQuestion(w http.ResponseWriter, r *http.Request) {
-	cfg, _ := config.New()
+	cfg := config.Firebase(
+		os.Getenv("FB_TYPE"),
+		os.Getenv("FB_PROJECT_ID"),
+		os.Getenv("FB_PRIVATE_KEY_ID"),
+		os.Getenv("FB_PRIVATE_KEY"),
+		os.Getenv("FB_CLIENT_EMAIL"),
+		os.Getenv("FB_CLIENT_ID"))
 	triviaAPI := tapi.New(r.Context(), cfg)
 	question, err := triviaAPI.GetDailyQuestion(r.Context())
 	if err != nil {
