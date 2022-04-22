@@ -17,8 +17,8 @@ func GetDailyQuestion(w http.ResponseWriter, r *http.Request) {
 		os.Getenv("FB_PRIVATE_KEY"),
 		os.Getenv("FB_CLIENT_EMAIL"),
 		os.Getenv("FB_CLIENT_ID"))
-	triviaAPI := tapi.New(r.Context(), cfg)
-	question, err := triviaAPI.GetDailyQuestion(r.Context())
+	cfg.PrintFirebaseConfig()
+	question, err := tapi.New(r.Context(), cfg).GetDailyQuestion()
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err)
 		return

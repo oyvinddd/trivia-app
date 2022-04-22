@@ -16,8 +16,7 @@ func SubmitAnswer(w http.ResponseWriter, r *http.Request) {
 		os.Getenv("FB_PRIVATE_KEY"),
 		os.Getenv("FB_CLIENT_EMAIL"),
 		os.Getenv("FB_CLIENT_ID"))
-	triviaAPI := tapi.New(r.Context(), cfg)
-	res, err := triviaAPI.SubmitAnswer(r.Context(), r.Body)
+	res, err := tapi.New(r.Context(), cfg).SubmitAnswer(r.Body)
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, err)
 		return

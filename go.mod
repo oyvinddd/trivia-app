@@ -2,7 +2,7 @@ module github.com/oyvinddd/trivia-app/api
 
 go 1.17
 
-require github.com/oyvinddd/trivia-api v1.2.2
+require github.com/oyvinddd/trivia-api v1.2.3
 
 require (
 	cloud.google.com/go v0.101.0 // indirect
