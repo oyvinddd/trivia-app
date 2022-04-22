@@ -1,11 +1,16 @@
 <script>
 	import { onMount } from "svelte"
 
-	let questionText = "Question goes here"
+	class Question {
+		constructor(data) {}
+	}
+
+	let question = new Question(null)
 
 	onMount(async () => {
 		fetch("/api/question").then(res => res.json()).then(data => {
-			questionText = data["text"]
+			question.text = data["question"]
+			question.id = data["id"]
 		}).catch(err => {
 			console.log(err)
 		})
@@ -16,10 +21,11 @@
 <main>
 	<div class="bg-white">
 		<h1>Daily Trivia</h1>
-		<h2 class="blue-200 shadow-lg">{ questionText }</h2>
+		<h2>{ question.text }</h2>
 	</div>
 </main>
 
+<!--
 <style>
 	main {
 		text-align: center;
@@ -41,3 +47,4 @@
 		}
 	}
 </style>
+-->
