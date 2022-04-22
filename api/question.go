@@ -3,13 +3,14 @@ package api
 import (
 	"encoding/json"
 	tapi "github.com/oyvinddd/trivia-api"
-	cfg "github.com/oyvinddd/trivia-api/config"
+	"github.com/oyvinddd/trivia-api/config"
 	"net/http"
 )
 
 // GetDailyQuestion fetches a daily question from the API
 func GetDailyQuestion(w http.ResponseWriter, r *http.Request) {
-	triviaAPI := tapi.New(r.Context(), cfg.New())
+	cfg, _ := config.New()
+	triviaAPI := tapi.New(r.Context(), cfg)
 	question, err := triviaAPI.GetDailyQuestion(r.Context())
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err)
