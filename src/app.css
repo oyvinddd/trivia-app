@@ -10,7 +10,7 @@ body {
 }
 
 body {
-	background-image: conic-gradient(at 125% 50%, #b78cf7, #ff7c94, #ffcf0d, #ff7c94, #b78cf7);
+	background-image: conic-gradient(from -90deg at 50% -25%, blue, blueviolet);
 	box-sizing: border-box;
 	color: #333;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
