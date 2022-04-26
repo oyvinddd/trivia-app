@@ -199,6 +199,8 @@ github.com/oyvinddd/trivia-api v1.2.2 h1:MBW3xjiNRMzZ4w0oox+yCy8pY366OycwtiN2z9g
 github.com/oyvinddd/trivia-api v1.2.2/go.mod h1:lZdv7bh4/BOxwFxFZPYySnsf0nSNdFlVyUGM6RI2iNk=
 github.com/oyvinddd/trivia-api v1.2.3 h1:sJfx2UsgtPrCSqjdI0gfb4S+KDyVUFVZaPi9VFa6d5s=
 github.com/oyvinddd/trivia-api v1.2.3/go.mod h1:lZdv7bh4/BOxwFxFZPYySnsf0nSNdFlVyUGM6RI2iNk=
+github.com/oyvinddd/trivia-api v1.2.4 h1:KUlgIp6+zepJJWsVjfYwNUImZRy2hlHlgNaD60cnJmU=
+github.com/oyvinddd/trivia-api v1.2.4/go.mod h1:cml4l/ncDZBi4bCwzZXul5Fc1wYEM8yPE/ftvPME3ZY=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:xMI15A0UPsDsEKsMN9yxemIoYk6Tm2C1GtYGdfGttqA=
 github.com/rogpeppe/fastuuid v1.2.0/go.mod h1:jVj6XXZzXRy/MSR5jhDC/2q6DgLz+nrA6LYCDYWNEvQ=
