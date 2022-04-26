@@ -34,12 +34,12 @@ func TriviaHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleGetDailyQuestion(w http.ResponseWriter, api *tapi.TriviaAPI) {
-	question, err := api.GetDailyQuestion()
+	questions, err := api.GetDailyQuestions()
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err)
 		return
 	}
-	respondWithJSON(w, http.StatusOK, question)
+	respondWithJSON(w, http.StatusOK, questions)
 }
 
 func handleSubmitAnswer(w http.ResponseWriter, r *http.Request, api *tapi.TriviaAPI) {

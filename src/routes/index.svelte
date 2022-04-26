@@ -8,7 +8,7 @@
 
 	onMount(async () => {
 		try {
-			const response = await fetch('/api/question');
+			const response = await fetch('/api/questions');
 			const { id, category, difficulty, question: text } = await response.json();
 
 			question = {
