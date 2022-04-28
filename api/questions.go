@@ -23,7 +23,7 @@ func TriviaHandler(w http.ResponseWriter, r *http.Request) {
 	triviaAPI := tapi.New(r.Context(), firebaseConfig)
 	switch r.Method {
 	case http.MethodGet:
-		handleGetDailyQuestion(w, triviaAPI)
+		handleGetDailyQuestions(w, triviaAPI)
 		break
 	case http.MethodPost:
 		handleSubmitAnswer(w, r, triviaAPI)
@@ -33,7 +33,7 @@ func TriviaHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func handleGetDailyQuestion(w http.ResponseWriter, api *tapi.TriviaAPI) {
+func handleGetDailyQuestions(w http.ResponseWriter, api *tapi.TriviaAPI) {
 	questions, err := api.GetDailyQuestions()
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err)
