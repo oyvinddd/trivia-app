@@ -5,17 +5,28 @@
 
 	import { onMount } from 'svelte';
 
-	let questions: Array<Question> = [];
+
 	let questionIndex: Number = 0
 
-	onMount(async () => {
+	//onMount(async () => {});
+</script>
+
+<script lang="ts" context="module">
+	import {Question} from "../types/Question";
+
+	export const ssr = true;
+
+	let questions: Array<Question> = [];
+
+	(async () => {
 		try {
 			const response = await fetch('/api/questions');
 			questions  = await response.json();
 		} catch (error) {
 			console.log(error);
 		}
-	});
+	})();
+
 </script>
 
 <svelte:head>
