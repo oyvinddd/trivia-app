@@ -3,20 +3,12 @@
 
 	import { onMount } from 'svelte';
 
-	// let questions: Array<Question> = [];
-	let question: Question | undefined;
+	let questions: Array<Question> = [];
 
 	onMount(async () => {
 		try {
 			const response = await fetch('/api/questions');
-			const { id, category, difficulty, question: text } = await response.json();
-
-			question = {
-				id,
-				category,
-				difficulty,
-				text
-			};
+			questions  = await response.json();
 		} catch (error) {
 			console.log(error);
 		}
@@ -31,9 +23,8 @@
 	<h1 class="text-3xl font-bold pb-2">DAILY TRIVIA</h1>
 		<div class="min-w-full shadow-xl text-center">
 			<div class="bg-yellow-400 px-6 py-8 rounded-t-2xl">
-				<h2 class="text-2xl font-bold">When was IBM founded? (hardcoded question)</h2>
-				{#if question}
-					<h2>{question?.category} -- {question?.text}</h2>
+				{#if questions}
+					<h2 class="text-2xl font-bold">{questions[0].category} • {questions[0].text} • { questions[0].text }</h2>
 				{/if}
 			</div>
 			<div class="px-6 py-6 bg-white rounded-b-2xl">
