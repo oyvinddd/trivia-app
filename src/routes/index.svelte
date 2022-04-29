@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ConfettiGenerator from "confetti-js";
+
 	import type { Question } from 'src/types/Question';
 	import type { Answer } from 'src/types/Answer';
 	import type { AnswerResult } from 'src/types/AnswerResult';
@@ -7,9 +9,16 @@
 
 	let questions: Array<Question> = [];
 	let questionIndex: number = 0
+	let soundSource: string = "sound/crying1.mp3"
+	let audioElement: HTMLAudioElement
 	let answerText: string
 
 	onMount(async () => {
+
+		const confettiSettings = { target: 'confetti-canvas', max: 300, size: 1.5, clock: 35, rotate: false };
+		const confetti = new ConfettiGenerator(confettiSettings);
+		confetti.render();
+
 		try {
 			const response = await fetch('/api/questions');
 			questions  = await response.json();
@@ -31,6 +40,8 @@
 		if (result.score >= 70) {
 			questionIndex++;
 			answerText = "";
+		} else {
+			await audioElement.play()
 		}
 	}
 </script>
@@ -39,6 +50,8 @@
 	<title>Trivia App</title>
 </svelte:head>
 
+<canvas id="confetti-canvas"></canvas>
+<audio bind:this={audioElement} src={soundSource}></audio>
 <div class="flex flex-col min-h-full justify-center items-center">
 	<h1 class="text-3xl font-bold pb-2">DAILY TRIVIA</h1>
 	<div class="min-w-full shadow-xl text-center">
@@ -58,4 +71,9 @@
 </div>
 
 <style>
+	#confetti-canvas {
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+	}
 </style>
