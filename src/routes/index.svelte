@@ -34,6 +34,9 @@
 	 * @param answer the user's answer
 	 */
 	async function submitAnswer(answer: Answer) {
+		// exit early if user submits an empty string as an answer
+		answer.answer = answer.answer.trim();
+		if (answer.answer.length == 0) return;
 		try {
 			const response = await fetch('/api/questions', {
 				method: 'POST',
