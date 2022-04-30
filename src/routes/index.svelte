@@ -10,6 +10,7 @@
 	const maxQuestions: number = 5
 
 	let questions: Array<Question> = [];
+	let results: Array<AnswerResult> = [];
 	let questionIndex: number = 0
 	let soundSource: string = "sound/crying1.mp3"
 	let audioElement: HTMLAudioElement
@@ -42,14 +43,18 @@
 				method: 'POST',
 				body: JSON.stringify(answer)
 			})
-			const result: AnswerResult = await response.json()
+			const result: AnswerResult = await response.json();
+			results.push(result);
+
 			if (result.correct) {
 				renderConfetti();
 			} else {
 				await audioElement.play();
 			}
-			questionIndex++;
-			answerText = "";
+			if (questionIndex < maxQuestions - 1) {
+				questionIndex++;
+				answerText = "";
+			}
 		} catch (error) {
 			console.log(error);
 		}
