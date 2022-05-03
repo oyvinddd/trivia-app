@@ -1,6 +1,9 @@
 <script lang="ts">
 	import ConfettiGenerator from "confetti-js";
 
+	import Questions from '../lib/question/Questions.svelte';
+	import Summary from '../lib/summary/Summary.svelte';
+
 	import type { Question } from 'src/types/Question';
 	import type { Answer } from 'src/types/Answer';
 	import type { AnswerResult } from 'src/types/AnswerResult';
@@ -74,24 +77,15 @@
 </svelte:head>
 
 <canvas id="confetti-canvas"></canvas>
-<audio bind:this={audioElement} src={soundSource}></audio>
+<audio bind:this={ audioElement } src={ soundSource }></audio>
 <div class="flex flex-col min-h-full justify-between">
 	<!-- MAIN CARD START -->
 	<main class="mb-auto justify-center text-center items-center">
 		<h1 class="text-3xl font-bold pb-2">DAILY TRIVIA</h1>
 		<div class="min-w-full shadow-xl">
-			<div class="bg-yellow-400 px-6 py-8 rounded-t-2xl">
-				{#if questions.length > 0 }
-					<!-- QUESTION DETAILS START -->
-					<div class="flex items-stretch min-w-full bg-blue-200">
-						<div class="bg-green-200 font-bold">Question { questionIndex + 1 } of { maxQuestions }</div>
-						<div class="bg-red-200 font-bold">{ questions[questionIndex].difficulty }</div>
-					</div>
-					<!-- QUESTION DETAILS END -->
-					<h3 class="text-xl font-bold text-gray-200">{ questions[questionIndex].category }</h3>
-					<h2 class ="text-2xl font-bold">{@html questions[questionIndex].question }</h2>
-				{/if}
-			</div>
+			<!-- QUESTION PART -->
+			<Questions { questions } { questionIndex } />
+			<!-- USER INPUT PART -->
 			<form class="px-6 py-6 bg-white rounded-b-2xl" action="#">
 				<input autofocus type="text" bind:value={answerText}
 					   class="block w-full px-2 py-4 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
