@@ -1,23 +1,30 @@
 <script lang="ts">
+
+	import { onMount } from 'svelte';
 	import ConfettiGenerator from "confetti-js";
 
+	// import svelte components
 	import Questions from '../lib/question/Questions.svelte';
+	import UserInput from '../lib/question/UserInput.svelte';
 	import Summary from '../lib/summary/Summary.svelte';
 
+	// import entities
 	import type { Question } from 'src/types/Question';
 	import type { Answer } from 'src/types/Answer';
 	import type { AnswerResult } from 'src/types/AnswerResult';
 
-	import { onMount } from 'svelte';
-
+	// constants
 	const maxQuestions: number = 5
+	const enum TriviaState {
+		Intro, Questions, Summary
+	}
 
 	let questions: Array<Question> = [];
 	let results: Array<AnswerResult> = [];
 	let questionIndex: number = 0
+	let currentState: TriviaState = TriviaState.Questions
 	let soundSource: string = "sound/crying1.mp3"
 	let audioElement: HTMLAudioElement
-	let answerText: string
 
 	onMount(fetchDailyQuestions);
 
@@ -37,8 +44,9 @@
 	 * Submit an answer to a given question to the API.
 	 * @param answer the user's answer
 	 */
-	async function submitAnswer(answer: Answer) {
+	async function submitAnswer(answerText: string, questionId: number) {
 		// exit early if user submits an empty string as an answer
+		const answer: Answer = {answer: answerText, question_id: questionId};
 		answer.answer = answer.answer.trim();
 		if (answer.answer.length == 0) return;
 		try {
@@ -56,7 +64,7 @@
 			}
 			if (questionIndex < maxQuestions - 1) {
 				questionIndex++;
-				answerText = "";
+				//answerText = "";
 			}
 		} catch (error) {
 			console.log(error);
@@ -83,15 +91,15 @@
 	<main class="mb-auto justify-center text-center items-center">
 		<h1 class="text-3xl font-bold pb-2">DAILY TRIVIA</h1>
 		<div class="min-w-full shadow-xl">
-			<!-- QUESTION PART -->
-			<Questions { questions } { questionIndex } />
-			<!-- USER INPUT PART -->
-			<form class="px-6 py-6 bg-white rounded-b-2xl" action="#">
-				<input autofocus type="text" bind:value={answerText}
-					   class="block w-full px-2 py-4 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-					   placeholder="Write your answer..."/>
-				<button class="sr-only" type="submit" on:click={() => submitAnswer({question_id: questions[questionIndex].id, answer: answerText })}>Submit</button>
-			</form>
+			{#if currentState === TriviaState.Questions }
+				<!-- QUESTION PART -->
+				<Questions { questions } { questionIndex } />
+				<!-- USER INPUT PART -->
+				<UserInput on:submit_answer={ (event) => submitAnswer(event.detail, questions[questionIndex].id) } />
+			{:else if currentState === TriviaState.Summary }
+				<Summary />
+			{/if}
+
 		</div>
 	</main>
 	<!-- MAIN CARD END -->
