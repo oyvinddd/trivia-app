@@ -64,7 +64,8 @@
 			}
 			if (questionIndex < maxQuestions - 1) {
 				questionIndex++;
-				//answerText = "";
+			} else {
+				currentState = TriviaState.Summary
 			}
 		} catch (error) {
 			console.log(error);
@@ -87,27 +88,25 @@
 <canvas id="confetti-canvas"></canvas>
 <audio bind:this={ audioElement } src={ soundSource }></audio>
 <div class="flex flex-col min-h-full justify-between">
-	<!-- MAIN CARD START -->
+	<!-- MAIN CARD -->
 	<main class="mb-auto justify-center text-center items-center">
 		<h1 class="text-3xl font-bold pb-2">DAILY TRIVIA</h1>
-		<div class="min-w-full shadow-xl">
+		<div class="min-w-full shadow-xl rounded-2xl bg-white">
 			{#if currentState === TriviaState.Questions }
 				<!-- QUESTION PART -->
 				<Questions { questions } { questionIndex } />
 				<!-- USER INPUT PART -->
 				<UserInput on:submit_answer={ (event) => submitAnswer(event.detail, questions[questionIndex].id) } />
 			{:else if currentState === TriviaState.Summary }
-				<Summary />
+				<Summary { results } />
 			{/if}
 
 		</div>
 	</main>
-	<!-- MAIN CARD END -->
-	<!-- FOOTER START -->
+	<!-- FOOTER -->
 	<footer class="bg-blue-500 text-center">
 		<h4>Footer</h4>
 	</footer>
-	<!-- FOOTER END -->
 </div>
 
 <style>

@@ -4,7 +4,7 @@
 
     const dispatch = createEventDispatcher();
 
-    export let answerText: string = ""
+    export let answerText = ""
 
     function submit() {
         dispatch('submit_answer', answerText)
